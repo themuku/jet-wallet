@@ -1,0 +1,226 @@
+:root {
+    --main-gray: rgb(214, 214, 214);
+    --main-black: rgb(36, 36, 36);
+    --main-red: rgb(255, 52, 52);
+    --main-green: rgb(47, 170, 47);
+    --main-white: #fff;
+    --dark-gray: #444;
+    --accent-color: rgb(53, 53, 184);
+    --light-gray: rgb(145, 145, 145);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-wrapper {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+
+    img {
+        width: 100%;
+    }
+}
+
+.nav-profile {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    span {
+        cursor: default;
+    }
+}
+
+.logout-btn {
+    background-color: var(--main-red);
+    color: var(--main-white);
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: all 100ms ease;
+    border: 2px solid var(--main-red);
+    font-size: 24px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--main-red);
+        background-color: transparent;
+    }
+}
+
+main {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: masonry;
+    gap: 40px;
+    height: calc(100vh - 97px);
+}
+
+.panel {
+    background-color: var(--main-white);
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+
+    h2 {
+        font-size: 38px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+.image-wrapper {}
+
+.balance-panel {
+    height: calc(35% - 20px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+
+    .balance-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .balance {
+        font-size: 52px;
+        font-weight: 700;
+    }
+
+    .first-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-info {
+        font-size: 24px;
+        display: flex;
+        gap: 20px;
+        color: var(--light-gray);
+        cursor: default;
+
+        .cvv {
+            cursor: pointer;
+
+            &:hover {
+                color: var(--dark-gray);
+            }
+        }
+    }
+
+    .account-number {
+        font-size: 24px;
+        color: var(--light-gray);
+        width: fit-content;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--dark-gray);
+        }
+    }
+
+    .show-btn {
+        font-size: 32px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .hide-btn {
+        font-size: 32px;
+        display: none;
+        cursor: pointer;
+    }
+}
+
+.balance-wrapper {}
+
+.account-number {}
+
+.operations-panel {
+    height: calc(60% - 20px);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label,
+            input {
+                font-size: 24px;
+            }
+
+            label {
+                color: var(--dark-gray);
+            }
+
+            input {
+                padding: 8px 16px;
+                border: 2px solid var(--dark-gray);
+                border-radius: 12px;
+            }
+        }
+    }
+}
+
+.history-panel {
+    height: calc(65% - 20px);
+
+    ul {
+        margin-top: 20px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 330px;
+        overflow-y: scroll;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 24px;
+            font-size: 24px;
+            background-color: var(--main-gray);
+            border-radius: 12px;
+
+            span {
+                font-weight: 600;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .minus {
+                color: var(--main-red);
+            }
+
+            .plus {
+                color: var(--main-green);
+            }
+        }
+    }
+}
+
+.cashback-panel {
+    height: calc(40% - 20px);
+}

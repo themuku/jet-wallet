@@ -1,0 +1,166 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-gray: rgb(214, 214, 214);
+    --main-black: rgb(36, 36, 36);
+    --main-red: rgb(255, 52, 52);
+    --main-green: rgb(47, 170, 47);
+    --main-white: #fff;
+    --dark-gray: #444;
+    --accent-color: rgb(53, 53, 184);
+    --light-gray: rgb(145, 145, 145);
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--main-gray);
+    overflow: hidden;
+}
+
+nav {
+    padding: 24px 180px
+}
+
+/* Login */
+.login-nav {}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 32px;
+}
+
+.auth-form {
+    background-color: var(--main-white);
+    padding: 40px;
+    border-radius: 20px;
+    width: fit-content;
+    font-size: 24px;
+    margin-inline: auto;
+    margin-top: calc(25% - 91px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    p {
+        font-size: 18px;
+        text-align: center;
+        font-weight: 600;
+        color: var(--light-gray);
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+    }
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--dark-gray);
+
+    input {
+        font-size: inherit;
+        padding: 8px 12px;
+        border: 2px solid var(--dark-gray);
+        border-radius: 12px;
+        outline: none;
+    }
+}
+
+.auth-btn {
+    margin-top: 20px;
+    background-color: var(--accent-color);
+    font-size: inherit;
+    border: none;
+    cursor: pointer;
+    align-self: center;
+    padding: 12px 32px;
+    color: var(--main-white);
+    border-radius: 12px;
+    transition: all 100ms ease;
+
+    &:hover {
+        box-shadow: 0 0 6px 5px rgba(53, 53, 184, 0.274);
+    }
+}
+
+.toast {
+    background-color: var(--main-white);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 24px;
+
+
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fade 600ms ease;
+    width: 300px;
+    text-align: center;
+
+    .success {
+        color: var(--main-green);
+    }
+
+    .error {
+        color: var(--main-red);
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: .1;
+    }
+
+    20% {
+        opacity: .2;
+    }
+
+    30% {
+        opacity: .3;
+    }
+
+
+    40% {
+        opacity: .4;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    60% {
+        opacity: .6;
+    }
+
+    70% {
+        opacity: .7;
+    }
+
+    80% {
+        opacity: .8;
+    }
+
+    90% {
+        opacity: .9;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

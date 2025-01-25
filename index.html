@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <nav class="login-nav">
+      <div class="logo">
+        <i
+          class="fa-solid fa-shuttle-space animate__animated animate__backInLeft"
+        ></i>
+        <span>JETWallet</span>
+      </div>
+    </nav>
+
+    <form class="auth-form">
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+      </div>
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <button class="auth-btn login-btn">Login</button>
+      <p>
+        Don't have an account? <a href="./signup.html">Click here &rarr;</a>
+      </p>
+    </form>
+    <script type="module" src="/src/js/login.js"></script>
+  </body>
+</html>
