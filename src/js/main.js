@@ -1,6 +1,7 @@
-import { accounts } from "./constants";
-import { getActiveAccount, logoutAccount, setActiveAccount } from "./storage";
+import { accounts as allAccounts } from "./constants";
+import { getAccount, logoutAccount, setAccount } from "./storage";
 import { toast } from "./toast";
+import dayjs from "dayjs";
 
 const navProfile = document.querySelector(".nav-profile");
 const logoutBtn = document.querySelector(".logout-btn");
@@ -11,36 +12,41 @@ const hideBtn = document.querySelector(".hide-btn");
 const balance = document.querySelector(".balance");
 const cvv = document.querySelector(".cvv");
 const expiryDate = document.querySelector(".expiry-date");
-const operationsPanel = document.querySelector(".operations-panel");
+// const operationsPanel = document.querySelector(".operations-panel");
+const historyList = document.querySelector(".history-panel ul");
+const clearAll = document.querySelector(".clear-all");
+const transferBtn = document.querySelector(".transfer-btn");
+const cashbackAmount = document.querySelector(".cashback-amount");
+const withdrawCashbackBtn = document.querySelector(".withdraw-btn");
+const changeCurrencyBtn = document.querySelector(".change-currency");
 
-const account = getActiveAccount();
+const CASHBACK_RATE = 0.05;
 
 let isCvvVisible = false;
+let currency = "JETCOIN";
 
-const month = new Date(account.expiryDate).getMonth() + 1;
+let accounts = getAccount("accounts") ? getAccount("accounts") : allAccounts;
+
+const accNum = getAccount().accountNumber;
+let account = accounts.find((acc) => acc.accountNumber === accNum);
 
 navProfile.querySelector("span").textContent = account.fullName;
 navProfile.querySelector("img").src = account.profileImage;
 userAccountNumber.textContent = account.accountNumber;
 balance.textContent = `${account.balance} AZN`;
-expiryDate.textContent = `${month < 10 ? `0${month}` : month}/${new Date(
-  account.expiryDate
-)
-  .getFullYear()
-  .toString()
-  .substring(2)}`;
+expiryDate.textContent = dayjs(account.expiryDate).format("MM/YY");
 
 logoutBtn.addEventListener("click", () => {
-  logoutAccount("activeAccount");
+  logoutAccount();
   window.location = "login.html";
 });
 
 userAccountNumber.addEventListener("click", (event) => {
   navigator.clipboard.writeText(event.target.textContent);
-  main.innerHTML += toast();
+  main.innerHTML += toast(false, "Copied");
 
   setTimeout(() => {
-    main.innerHTML = main.innerHTML.replaceAll(toast(), "");
+    main.innerHTML = main.innerHTML.replaceAll(toast(false, "Copied"), "");
   }, 2000);
 });
 
@@ -59,6 +65,8 @@ hideBtn.addEventListener("click", () => {
 });
 
 cvv.addEventListener("click", () => {
+  console.log(isCvvVisible, account.cvv);
+
   if (isCvvVisible) {
     cvv.textContent = "***";
     isCvvVisible = false;
@@ -68,13 +76,19 @@ cvv.addEventListener("click", () => {
   }
 });
 
-operationsPanel.addEventListener("submit", (event) => {
+transferBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
-  const accNumber = event.target[0].value;
-  const amount = +event.target[1].value;
+  const accNumber = document.getElementById("account-number").value;
+  const amount = +document.getElementById("amount").value;
 
   const foundAccount = accounts.find((acc) => acc.accountNumber === accNumber);
+  console.log(
+    accounts.find((acc) => {
+      console.log(accNumber);
+      return acc.accountNumber === accNumber;
+    })
+  );
 
   if (!foundAccount) {
     main.innerHTML += toast(true, "User not found");
@@ -102,6 +116,19 @@ operationsPanel.addEventListener("submit", (event) => {
     return;
   }
 
+  if (account.balance < 1) {
+    main.innerHTML += toast(true, "Enter amount greater than 1");
+
+    setTimeout(() => {
+      main.innerHTML = main.innerHTML.replaceAll(
+        toast(true, "Enter amount greater than 1"),
+        ""
+      );
+    }, 2000);
+
+    return;
+  }
+
   if (account.accountNumber === accNumber) {
     main.innerHTML += toast(true, "Can't transfer to yourself");
 
@@ -117,13 +144,106 @@ operationsPanel.addEventListener("submit", (event) => {
 
   foundAccount.balance += amount;
   account.balance -= amount;
-  setActiveAccount(account);
+  account.cashback += amount * CASHBACK_RATE;
+
+  foundAccount.history.push({
+    from: account.fullName,
+    to: "",
+    amount,
+  });
+
+  account.history.push({
+    to: foundAccount.fullName,
+    from: "",
+    amount: 0 - amount,
+  });
+
+  renderCashbackPanel(account.cashback, currency);
+
+  setAccount(account);
+  setAccount(accounts, "accounts");
+
+  renderHistoryList(account.history);
   balance.textContent = `${account.balance} AZN`;
   main.innerHTML += toast();
   setTimeout(() => {
     main.innerHTML = main.innerHTML.replaceAll(toast(), "");
   }, 2000);
 
-  event.target[0].value = "";
-  event.target[1].value = "";
+  document.getElementById("account-number").value = "";
+  document.getElementById("amount").value = "";
+});
+
+function renderHistoryList(list) {
+  historyList.innerHTML = "";
+
+  if (list.length < 0) return;
+
+  list.toReversed().forEach((transaction) => {
+    const condition = transaction.amount > 0;
+    const message = condition ? transaction.from : transaction.to;
+    const amount = condition ? transaction.amount : 0 - transaction.amount;
+
+    historyList.innerHTML += `
+    <li>
+      <div>
+        <i class="fa-solid fa-circle-${condition > 0 ? "plus" : "minus"} ${
+      condition > 0 ? "plus" : "minus"
+    }"></i> <span>${message} <span>${dayjs(transaction.date).format(
+      "DD.MM.YYYY, HH:mm"
+    )}</span></span>
+      </div>
+      <p class="${condition > 0 ? "plus" : "minus"}">${
+      condition ? "+" : "-"
+    }${amount} AZN</p>
+    </li>
+    `;
+  });
+}
+
+renderHistoryList(account.history);
+
+clearAll.addEventListener("click", () => {
+  account.history = [];
+  setAccount(accounts, "accounts");
+  renderHistoryList([]);
+});
+
+function renderCashbackPanel(amount, currency = "JETCOIN") {
+  switch (currency) {
+    case "JETCOIN":
+      currency = "<span><span>JET</span>Coins</span>";
+      amount *= 100;
+      break;
+    case "AZN":
+      currency = "AZN";
+      break;
+    default:
+      currency = "<span><span>JET</span>Coins</span>";
+      break;
+  }
+
+  cashbackAmount.innerHTML = `
+   ${amount} ${currency}
+  `;
+}
+
+renderCashbackPanel(account.cashback);
+
+changeCurrencyBtn.addEventListener("click", () => {
+  if (currency == "JETCOIN") {
+    renderCashbackPanel(account.cashback);
+    currency = "AZN";
+  } else {
+    renderCashbackPanel(account.cashback, currency);
+    currency = "JETCOIN";
+  }
+});
+
+withdrawCashbackBtn.addEventListener("click", () => {
+  account.balance += account.cashback;
+  account.cashback = 0;
+  renderCashbackPanel(account.cashback, currency);
+  balance.textContent = `${account.balance} AZN`;
+  setAccount(accounts, "accounts");
 });

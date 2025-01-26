@@ -72,12 +72,17 @@
             <input type="text" id="amount" placeholder="e.g. 5" />
           </div>
 
-          <button type="submit" class="login-btn auth-btn">Transfer</button>
+          <button type="button" class="login-btn auth-btn transfer-btn">
+            Transfer
+          </button>
         </form>
       </div>
       <div class="history-panel panel">
-        <h2>History</h2>
+        <h2>
+          History
 
+          <i class="fa-solid fa-trash-can clear-all"></i>
+        </h2>
         <ul>
           <li>
             <div>
@@ -136,7 +141,15 @@
           </li>
         </ul>
       </div>
-      <div class="cashback-panel panel"></div>
+      <div class="cashback-panel panel">
+        <div>
+          <p class="cashback-amount">
+            0 <span><span>JET</span>Coins</span>
+          </p>
+          <i class="fa-solid fa-arrows-rotate change-currency"></i>
+        </div>
+        <button class="auth-btn withdraw-btn">Withdraw</button>
+      </div>
     </main>
     <script type="module" src="/src/js/toast.js"></script>
     <script type="module" src="/src/js/main.js"></script>

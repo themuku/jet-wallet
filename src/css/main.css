@@ -183,6 +183,20 @@ main {
 .history-panel {
     height: calc(65% - 20px);
 
+    h2 {
+        position: relative;
+    }
+
+    .clear-all {
+        color: var(--main-red);
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        font-size: 24px;
+    }
+
     ul {
         margin-top: 20px;
         list-style-type: none;
@@ -202,6 +216,11 @@ main {
 
             span {
                 font-weight: 600;
+
+                span {
+                    font-weight: 400;
+                    color: var(--dark-gray);
+                }
             }
 
             div {
@@ -221,6 +240,44 @@ main {
     }
 }
 
+button.auth-btn.withdraw-btn {
+    margin-top: 0;
+}
+
 .cashback-panel {
     height: calc(40% - 20px);
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        /* height: calc(100% - 100px); */
+        margin-bottom: 80px;
+        cursor: default;
+
+        i {
+            font-size: 24px;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: all 200ms ease;
+
+            &:hover {
+                color: var(--dark-gray);
+                rotate: 180deg;
+            }
+        }
+
+        .cashback-amount {
+            font-size: 48px;
+
+            span {
+                color: var(--main-black);
+
+                span {
+                    color: var(--accent-color);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
 }

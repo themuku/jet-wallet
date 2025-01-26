@@ -1,5 +1,7 @@
-import { accounts } from "./constants";
-import { setActiveAccount } from "./storage";
+import { accounts as allAccounts } from "./constants";
+import { setAccount, getAccount } from "./storage";
+
+let accounts = getAccount("accounts") ? getAccount("accounts") : allAccounts;
 
 const form = document.querySelector("form");
 
@@ -13,7 +15,7 @@ form.addEventListener("submit", (event) => {
   );
 
   if (foundAccount) {
-    setActiveAccount(foundAccount);
+    setAccount(foundAccount);
     window.location = "main.html";
     return;
   }

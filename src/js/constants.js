@@ -9,9 +9,23 @@ export const accounts = [
     birthdate: "",
     balance: 1000,
     accountNumber: "1111 1111 1111 1111",
-    history: [],
+    history: [
+      {
+        amount: 10,
+        to: "",
+        from: "Pensiya",
+        date: new Date(),
+      },
+      {
+        amount: -10,
+        to: "Seyidin doneri",
+        from: "",
+        date: new Date(),
+      },
+    ],
     cvv: 123,
     expiryDate: new Date(),
+    cashback: 0,
   },
   {
     email: "ali@hotmail.com",
@@ -22,9 +36,23 @@ export const accounts = [
     birthdate: "",
     balance: 1000,
     accountNumber: "2222 2222 2222 2222",
-    history: [],
+    history: [
+      {
+        amount: 10,
+        to: "",
+        from: "Pensiya",
+        date: new Date(),
+      },
+      {
+        amount: -10,
+        to: "Seyidin doneri",
+        from: "",
+        date: new Date(),
+      },
+    ],
     cvv: 123,
     expiryDate: new Date(),
+    cashback: 0,
   },
   {
     email: "yusif@icloud.com",
@@ -35,9 +63,23 @@ export const accounts = [
     birthdate: "",
     balance: 1000,
     accountNumber: "3333 3333 3333 3333",
-    history: [],
+    history: [
+      {
+        amount: 10,
+        to: "",
+        from: "Pensiya",
+        date: new Date(),
+      },
+      {
+        amount: -10,
+        to: "Seyidin doneri",
+        from: "",
+        date: new Date(),
+      },
+    ],
     cvv: 123,
     expiryDate: new Date(),
+    cashback: 0,
   },
   {
     email: "nadir@yahoo.com",
@@ -48,8 +90,22 @@ export const accounts = [
     birthdate: "",
     balance: 1000,
     accountNumber: "4444 4444 4444 4444",
-    history: [],
+    history: [
+      {
+        amount: 10,
+        to: "",
+        from: "Pensiya",
+        date: new Date(),
+      },
+      {
+        amount: -10,
+        to: "Seyidin doneri",
+        from: "",
+        date: new Date(),
+      },
+    ],
     cvv: 123,
     expiryDate: new Date(),
+    cashback: 0,
   },
 ];
