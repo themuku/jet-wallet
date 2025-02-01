@@ -1,0 +1,186 @@
+{
+  "accounts": [
+    {
+      "email": "murad@gmail.com",
+      "password": "123321",
+      "fullName": "Murad Aliyev",
+      "phoneNumber": "",
+      "profileImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1YGbu6Fgq2vK-rEMMoOcuzzGzsh6nAs1xkg&s",
+      "birthdate": "",
+      "balance": 980,
+      "accountNumber": "1111 1111 1111 1111",
+      "history": [
+        {
+          "amount": 10,
+          "to": "",
+          "from": "Pensiya",
+          "date": "01-02-2025"
+        },
+        {
+          "amount": -10,
+          "to": "Seyidin doneri",
+          "from": "",
+          "date": "01-02-2025"
+        },
+        {
+          "to": "Ali Aliyev",
+          "from": "",
+          "amount": -5
+        },
+        {
+          "to": "Ali Aliyev",
+          "from": "",
+          "amount": -5
+        },
+        {
+          "to": "Ali Aliyev",
+          "from": "",
+          "amount": -5
+        },
+        {
+          "to": "Ali Aliyev",
+          "from": "",
+          "amount": -5
+        }
+      ],
+      "cvv": 123,
+      "expiryDate": "01-02-2025",
+      "cashback": 1,
+      "id": "29fd"
+    },
+    {
+      "email": "ali@hotmail.com",
+      "password": "123321",
+      "fullName": "Ali Aliyev",
+      "phoneNumber": "",
+      "profileImage": "",
+      "birthdate": "",
+      "balance": 1020,
+      "accountNumber": "2222 2222 2222 2222",
+      "history": [
+        {
+          "amount": 10,
+          "to": "",
+          "from": "Pensiya",
+          "date": "01-02-2025"
+        },
+        {
+          "amount": -10,
+          "to": "Seyidin doneri",
+          "from": "",
+          "date": "01-02-2025"
+        },
+        {
+          "from": "Murad Aliyev",
+          "to": "",
+          "amount": 5
+        },
+        {
+          "from": "Murad Aliyev",
+          "to": "",
+          "amount": 5
+        },
+        {
+          "from": "Murad Aliyev",
+          "to": "",
+          "amount": 5
+        },
+        {
+          "from": "Murad Aliyev",
+          "to": "",
+          "amount": 5
+        }
+      ],
+      "cvv": 123,
+      "expiryDate": "01-02-2025",
+      "cashback": 0,
+      "id": "04ed"
+    },
+    {
+      "email": "yusif@icloud.com",
+      "password": "123321",
+      "fullName": "Yusif Elekberov",
+      "phoneNumber": "",
+      "profileImage": "",
+      "birthdate": "",
+      "balance": 1000,
+      "accountNumber": "3333 3333 3333 3333",
+      "history": [
+        {
+          "amount": 10,
+          "to": "",
+          "from": "Pensiya",
+          "date": "01-02-2025"
+        },
+        {
+          "amount": -10,
+          "to": "Seyidin doneri",
+          "from": "",
+          "date": "01-02-2025"
+        }
+      ],
+      "cvv": 123,
+      "expiryDate": "01-02-2025",
+      "cashback": 0,
+      "id": "b372"
+    },
+    {
+      "email": "nadir@yahoo.com",
+      "password": "123321",
+      "fullName": "Nadir Quluzadeh",
+      "phoneNumber": "",
+      "profileImage": "",
+      "birthdate": "",
+      "balance": 1000,
+      "accountNumber": "4444 4444 4444 4444",
+      "history": [
+        {
+          "amount": 10,
+          "to": "",
+          "from": "Pensiya",
+          "date": "01-02-2025"
+        },
+        {
+          "amount": -10,
+          "to": "Seyidin doneri",
+          "from": "",
+          "date": "01-02-2025"
+        }
+      ],
+      "cvv": 123,
+      "expiryDate": "01-02-2025",
+      "cashback": 0,
+      "id": "7813"
+    },
+    {
+      "id": "d509",
+      "email": "merd@gmail.com",
+      "fullName": "Merd Resulzade",
+      "birthdate": "2011-06-04",
+      "phoneNumber": "+994101234567",
+      "password": "Merd123!",
+      "profileImage": "",
+      "balance": 0,
+      "history": [],
+      "cvv": "466",
+      "expiryDate": "1970-01-01T00:00:02.030Z",
+      "cashback": 0,
+      "accountNumber": "1886 8475 9524 3560"
+    },
+    {
+      "id": "d328",
+      "email": "umarnuruyev@mail.ru",
+      "fullName": "Umar Nuruyev",
+      "birthdate": "2011-01-23",
+      "phoneNumber": "+994512110911",
+      "password": "Umar911!",
+      "profileImage": "",
+      "balance": 0,
+      "history": [],
+      "cvv": "618",
+      "expiryDate": "2030",
+      "cashback": 0,
+      "accountNumber": "4585 8466 2726 3448"
+    }
+  ]
+}

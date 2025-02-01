@@ -1,11 +1,11 @@
-export function setAccount(account, key = "activeAccount") {
-  localStorage.setItem(key, JSON.stringify(account));
+export function setAccount(id, key = "id") {
+  localStorage.setItem(key, JSON.stringify(id));
 }
 
-export function getAccount(key = "activeAccount") {
+export function getAccount(key = "id") {
   return JSON.parse(localStorage.getItem(key));
 }
 
-export function logoutAccount(key = "activeAccount") {
+export function logoutAccount(key = "id") {
   localStorage.removeItem(key);
 }

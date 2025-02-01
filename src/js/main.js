@@ -1,4 +1,4 @@
-import { accounts as allAccounts } from "./constants";
+import { fetchUser, fetchUsers } from "./api";
 import { getAccount, logoutAccount, setAccount } from "./storage";
 import { toast } from "./toast";
 import dayjs from "dayjs";
@@ -12,7 +12,6 @@ const hideBtn = document.querySelector(".hide-btn");
 const balance = document.querySelector(".balance");
 const cvv = document.querySelector(".cvv");
 const expiryDate = document.querySelector(".expiry-date");
-// const operationsPanel = document.querySelector(".operations-panel");
 const historyList = document.querySelector(".history-panel ul");
 const clearAll = document.querySelector(".clear-all");
 const transferBtn = document.querySelector(".transfer-btn");
@@ -25,16 +24,19 @@ const CASHBACK_RATE = 0.05;
 let isCvvVisible = false;
 let currency = "JETCOIN";
 
-let accounts = getAccount("accounts") ? getAccount("accounts") : allAccounts;
+let accountId = getAccount();
+let account = fetchUser(accountId);
+let accounts = fetchUsers();
 
-const accNum = getAccount().accountNumber;
-let account = accounts.find((acc) => acc.accountNumber === accNum);
-
-navProfile.querySelector("span").textContent = account.fullName;
-navProfile.querySelector("img").src = account.profileImage;
-userAccountNumber.textContent = account.accountNumber;
-balance.textContent = `${account.balance} AZN`;
-expiryDate.textContent = dayjs(account.expiryDate).format("MM/YY");
+fetchUser(accountId).then((account) => {
+  navProfile.querySelector("span").textContent = account.fullName;
+  navProfile.querySelector("img").src = account.profileImage;
+  userAccountNumber.textContent = account.accountNumber;
+  balance.textContent = `${account.balance} AZN`;
+  expiryDate.textContent = dayjs(account.expiryDate).format("MM/YY");
+  renderHistoryList(account.history);
+  renderCashbackPanel(account.cashback, currency);
+});
 
 logoutBtn.addEventListener("click", () => {
   logoutAccount();
@@ -54,26 +56,28 @@ showBtn.addEventListener("click", () => {
   showBtn.style.display = "none";
   hideBtn.style.display = "inline-block";
 
-  balance.textContent = "*".repeat(String(account.balance).length) + " AZN";
+  balance.textContent = "*".repeat(4) + " AZN";
 });
 
 hideBtn.addEventListener("click", () => {
   hideBtn.style.display = "none";
   showBtn.style.display = "inline-block";
 
-  balance.textContent = `${account.balance} AZN`;
+  fetchUser(accountId).then((account) => {
+    balance.textContent = `${account.balance} AZN`;
+  });
 });
 
 cvv.addEventListener("click", () => {
-  console.log(isCvvVisible, account.cvv);
-
-  if (isCvvVisible) {
-    cvv.textContent = "***";
-    isCvvVisible = false;
-  } else {
-    cvv.textContent = account.cvv;
-    isCvvVisible = true;
-  }
+  fetchUser(accountId).then((account) => {
+    if (isCvvVisible) {
+      cvv.textContent = "***";
+      isCvvVisible = false;
+    } else {
+      cvv.textContent = account.cvv;
+      isCvvVisible = true;
+    }
+  });
 });
 
 transferBtn.addEventListener("click", (event) => {
@@ -82,96 +86,102 @@ transferBtn.addEventListener("click", (event) => {
   const accNumber = document.getElementById("account-number").value;
   const amount = +document.getElementById("amount").value;
 
-  const foundAccount = accounts.find((acc) => acc.accountNumber === accNumber);
-  console.log(
-    accounts.find((acc) => {
-      console.log(accNumber);
-      return acc.accountNumber === accNumber;
-    })
-  );
-
-  if (!foundAccount) {
-    main.innerHTML += toast(true, "User not found");
-
-    setTimeout(() => {
-      main.innerHTML = main.innerHTML.replaceAll(
-        toast(true, "User not found"),
-        ""
+  fetchUsers().then((accounts) => {
+    fetchUser(accountId).then((account) => {
+      const foundAccount = accounts.find(
+        (acc) => acc.accountNumber === accNumber
       );
-    }, 2000);
 
-    return;
-  }
+      if (!foundAccount) {
+        main.innerHTML += toast(true, "User not found");
 
-  if (account.balance < amount) {
-    main.innerHTML += toast(true, "Not sufficient funds");
+        setTimeout(() => {
+          main.innerHTML = main.innerHTML.replaceAll(
+            toast(true, "User not found"),
+            ""
+          );
+        }, 2000);
 
-    setTimeout(() => {
-      main.innerHTML = main.innerHTML.replaceAll(
-        toast(true, "Not sufficient funds"),
-        ""
-      );
-    }, 2000);
+        return;
+      }
 
-    return;
-  }
+      if (account.balance < amount) {
+        main.innerHTML += toast(true, "Not sufficient funds");
 
-  if (account.balance < 1) {
-    main.innerHTML += toast(true, "Enter amount greater than 1");
+        setTimeout(() => {
+          main.innerHTML = main.innerHTML.replaceAll(
+            toast(true, "Not sufficient funds"),
+            ""
+          );
+        }, 2000);
 
-    setTimeout(() => {
-      main.innerHTML = main.innerHTML.replaceAll(
-        toast(true, "Enter amount greater than 1"),
-        ""
-      );
-    }, 2000);
+        return;
+      }
 
-    return;
-  }
+      if (account.balance < 1) {
+        main.innerHTML += toast(true, "Enter amount greater than 1");
 
-  if (account.accountNumber === accNumber) {
-    main.innerHTML += toast(true, "Can't transfer to yourself");
+        setTimeout(() => {
+          main.innerHTML = main.innerHTML.replaceAll(
+            toast(true, "Enter amount greater than 1"),
+            ""
+          );
+        }, 2000);
 
-    setTimeout(() => {
-      main.innerHTML = main.innerHTML.replaceAll(
-        toast(true, "Can't transfer to yourself"),
-        ""
-      );
-    }, 2000);
+        return;
+      }
 
-    return;
-  }
+      if (account.accountNumber === accNumber) {
+        main.innerHTML += toast(true, "Can't transfer to yourself");
 
-  foundAccount.balance += amount;
-  account.balance -= amount;
-  account.cashback += amount * CASHBACK_RATE;
+        setTimeout(() => {
+          main.innerHTML = main.innerHTML.replaceAll(
+            toast(true, "Can't transfer to yourself"),
+            ""
+          );
+        }, 2000);
 
-  foundAccount.history.push({
-    from: account.fullName,
-    to: "",
-    amount,
+        return;
+      }
+
+      foundAccount.balance += amount;
+      account.balance -= amount;
+      account.cashback += amount * CASHBACK_RATE;
+
+      foundAccount.history.push({
+        from: account.fullName,
+        to: "",
+        amount,
+      });
+
+      account.history.push({
+        to: foundAccount.fullName,
+        from: "",
+        amount: 0 - amount,
+      });
+
+      fetch(`http://localhost:5003/accounts/${accountId}`, {
+        method: "PUT",
+        body: JSON.stringify(account),
+      });
+
+      fetch(`http://localhost:5003/accounts/${foundAccount.id}`, {
+        method: "PUT",
+        body: JSON.stringify(foundAccount),
+      });
+
+      renderHistoryList(account.history);
+      renderCashbackPanel(account.cashback, currency);
+      balance.textContent = `${account.balance} AZN`;
+      main.innerHTML += toast();
+      setTimeout(() => {
+        main.innerHTML = main.innerHTML.replaceAll(toast(), "");
+      }, 2000);
+
+      document.getElementById("account-number").value = "";
+      document.getElementById("amount").value = "";
+    });
   });
-
-  account.history.push({
-    to: foundAccount.fullName,
-    from: "",
-    amount: 0 - amount,
-  });
-
-  renderCashbackPanel(account.cashback, currency);
-
-  setAccount(account);
-  setAccount(accounts, "accounts");
-
-  renderHistoryList(account.history);
-  balance.textContent = `${account.balance} AZN`;
-  main.innerHTML += toast();
-  setTimeout(() => {
-    main.innerHTML = main.innerHTML.replaceAll(toast(), "");
-  }, 2000);
-
-  document.getElementById("account-number").value = "";
-  document.getElementById("amount").value = "";
 });
 
 function renderHistoryList(list) {
@@ -201,12 +211,12 @@ function renderHistoryList(list) {
   });
 }
 
-renderHistoryList(account.history);
-
 clearAll.addEventListener("click", () => {
-  account.history = [];
-  setAccount(accounts, "accounts");
-  renderHistoryList([]);
+  fetchUser(account).then((account) => {
+    account.history = [];
+    setAccount(accounts, "accounts");
+    renderHistoryList([]);
+  });
 });
 
 function renderCashbackPanel(amount, currency = "JETCOIN") {
@@ -231,19 +241,23 @@ function renderCashbackPanel(amount, currency = "JETCOIN") {
 renderCashbackPanel(account.cashback);
 
 changeCurrencyBtn.addEventListener("click", () => {
-  if (currency == "JETCOIN") {
-    renderCashbackPanel(account.cashback);
-    currency = "AZN";
-  } else {
-    renderCashbackPanel(account.cashback, currency);
-    currency = "JETCOIN";
-  }
+  fetchUser(accountId).then((account) => {
+    if (currency == "JETCOIN") {
+      renderCashbackPanel(account.cashback);
+      currency = "AZN";
+    } else {
+      renderCashbackPanel(account.cashback, currency);
+      currency = "JETCOIN";
+    }
+  });
 });
 
 withdrawCashbackBtn.addEventListener("click", () => {
-  account.balance += account.cashback;
-  account.cashback = 0;
-  renderCashbackPanel(account.cashback, currency);
-  balance.textContent = `${account.balance} AZN`;
-  setAccount(accounts, "accounts");
+  fetchUser(accountId).then((account) => {
+    account.balance += account.cashback;
+    account.cashback = 0;
+    renderCashbackPanel(account.cashback, currency);
+    balance.textContent = `${account.balance} AZN`;
+    setAccount(accounts, "accounts");
+  });
 });

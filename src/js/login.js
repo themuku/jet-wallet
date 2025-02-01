@@ -1,7 +1,5 @@
-import { accounts as allAccounts } from "./constants";
-import { setAccount, getAccount } from "./storage";
-
-let accounts = getAccount("accounts") ? getAccount("accounts") : allAccounts;
+import { fetchUsers } from "./api";
+import { setAccount } from "./storage";
 
 const form = document.querySelector("form");
 
@@ -10,15 +8,19 @@ form.addEventListener("submit", (event) => {
   const email = event.target[0].value;
   const password = event.target[1].value;
 
-  const foundAccount = accounts.find(
-    (acc) => acc.email === email && acc.password === password
-  );
+  fetchUsers().then((accounts) => {
+    const foundAccount = accounts.find(
+      (acc) => acc.email === email && acc.password === password
+    );
 
-  if (foundAccount) {
-    setAccount(foundAccount);
-    window.location = "main.html";
-    return;
-  }
+    console.log(foundAccount);
 
-  alert("Invalid credentials");
+    if (foundAccount) {
+      setAccount(foundAccount.id);
+      window.location = "main.html";
+      return;
+    }
+
+    alert("Invalid credentials");
+  });
 });

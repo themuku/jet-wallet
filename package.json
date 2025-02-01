@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "npx json-server ./db.json --port 5003"
   },
   "devDependencies": {
     "vite": "^6.0.5"
   },
   "dependencies": {
     "dayjs": "^1.11.13",
+    "json-server": "^1.0.0-beta.3",
     "validator": "^13.12.0"
   }
 }
