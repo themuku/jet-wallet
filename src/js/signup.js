@@ -1,7 +1,7 @@
 import validator from "validator";
-import { toast } from "./toast";
 import { fetchUsers } from "./api";
 import dayjs from "dayjs";
+import bcrypt from "bcryptjs";
 
 const form = document.querySelector("form");
 
@@ -26,6 +26,23 @@ function generateRandomAccNumberAndCvv() {
   return [cvv, accNumber];
 }
 
+function hexColorGenerator() {
+  let color = "";
+
+  for (let i = 0; i < 6; i++) {
+    let randomNumber = Math.floor(Math.random() * 16);
+    let letters = "ABCDEF";
+
+    if(randomNumber > 9) {
+      color += letters[randomNumber - 10];
+    } else {
+      color += randomNumber;
+    }
+  }
+
+  return color;
+ }
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const email = event.target[0].value;
@@ -41,7 +58,7 @@ form.addEventListener("submit", (event) => {
     !validator.isMobilePhone(phoneNumber, "az-AZ") ||
     !validator.isStrongPassword(password)
   ) {
-    toast(false, "Enter valid credentials");
+    // toast(false, "Enter valid credentials");
     return;
   }
 
@@ -49,22 +66,24 @@ form.addEventListener("submit", (event) => {
     const foundAccount = accounts.find((acc) => acc.email === email);
 
     if (foundAccount) {
-      toast(true, "This email already in use");
+      alert("This email is already in use");
       return;
     } else {
+      let initials = fullName.split(" ").map(t => t[0].toUpperCase()).join("");
+
       const newUser = {
         email,
         fullName,
         birthdate,
         phoneNumber,
-        password,
-        profileImage: "",
+        password: bcrypt.hashSync(password, 10),
+        profileImage: `https://placehold.co/400X400/${hexColorGenerator()}/${hexColorGenerator()}?text=${initials}`,
         balance: 0,
         history: [],
         cvv: generateRandomAccNumberAndCvv()[0],
         expiryDate: dayjs(
           new Date().setFullYear(new Date().getFullYear() + 5)
-        ).format("YYYY"),
+        ).format("DD-MM-YYYY"),
         cashback: 0,
         accountNumber: generateRandomAccNumberAndCvv()[1],
       };
@@ -79,4 +98,6 @@ form.addEventListener("submit", (event) => {
   });
 });
 
-console.log();
+// GET, POST, PUT, PATCH, DELETE
+
+// https://placehold.co/400X400/${}/FFF?text=NS

@@ -152,12 +152,14 @@ transferBtn.addEventListener("click", (event) => {
         from: account.fullName,
         to: "",
         amount,
+        date: new Date()
       });
 
       account.history.push({
         to: foundAccount.fullName,
         from: "",
         amount: 0 - amount,
+        date: new Date()
       });
 
       fetch(`http://localhost:5003/accounts/${accountId}`, {
@@ -212,11 +214,15 @@ function renderHistoryList(list) {
 }
 
 clearAll.addEventListener("click", () => {
-  fetchUser(account).then((account) => {
-    account.history = [];
-    setAccount(accounts, "accounts");
+    const data = {
+      history: []
+    };
+
+    fetch(`http://localhost:5003/accounts/${accountId}`, {
+      method: "PATCH",
+      body: JSON.stringify(data)
+    });
     renderHistoryList([]);
-  });
 });
 
 function renderCashbackPanel(amount, currency = "JETCOIN") {
@@ -234,7 +240,7 @@ function renderCashbackPanel(amount, currency = "JETCOIN") {
   }
 
   cashbackAmount.innerHTML = `
-   ${amount} ${currency}
+   ${amount === 0 ? 0 : amount - Math.floor(amount) === 0 ? amount : amount.toFixed(2)} ${currency}
   `;
 }
 

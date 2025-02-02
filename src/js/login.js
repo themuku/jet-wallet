@@ -1,5 +1,6 @@
 import { fetchUsers } from "./api";
 import { setAccount } from "./storage";
+import bcrypt from "bcryptjs"
 
 const form = document.querySelector("form");
 
@@ -10,7 +11,13 @@ form.addEventListener("submit", (event) => {
 
   fetchUsers().then((accounts) => {
     const foundAccount = accounts.find(
-      (acc) => acc.email === email && acc.password === password
+      (acc) => {
+        if (acc.password.startsWith("$2a")) {
+          return acc.email === email && bcrypt.compareSync(password, acc.password)
+        } else {
+          return acc.email === email && acc.password === password
+        }
+      }
     );
 
     console.log(foundAccount);
