@@ -41,6 +41,8 @@
     </nav>
 
     <main>
+      <div class="first-section">
+
       <div class="balance-panel panel">
         <div class="first-column">
           <div class="balance-wrapper">
@@ -54,9 +56,20 @@
             <span class="cvv">***</span>
           </div>
         </div>
-        <div class="second-column"></div>
       </div>
-      <div class="operations-panel panel">
+      <div class="history-panel panel">
+        <h2>
+          History
+
+          <i class="fa-solid fa-trash-can clear-all"></i>
+        </h2>
+        <ul>  
+        </ul>
+      </div>
+    </div>
+    <div class="second-section">
+
+      <div title="Panel for sending money" class="operations-panel panel">
         <h2>Transactions</h2>
         <form>
           <div>
@@ -77,70 +90,7 @@
           </button>
         </form>
       </div>
-      <div class="history-panel panel">
-        <h2>
-          History
-
-          <i class="fa-solid fa-trash-can clear-all"></i>
-        </h2>
-        <ul>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-plus plus"></i> <span>Salary</span>
-            </div>
-            <p class="plus">+500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-          <li>
-            <div>
-              <i class="fa-solid fa-circle-minus minus"></i>
-              <span>Kontakt Home</span>
-            </div>
-            <p class="minus">-500 AZN</p>
-          </li>
-        </ul>
-      </div>
+      
       <div class="cashback-panel panel">
         <div>
           <p class="cashback-amount">
@@ -150,6 +100,8 @@
         </div>
         <button class="auth-btn withdraw-btn">Withdraw</button>
       </div>
+    </div>
+
     </main>
     <script type="module" src="/src/js/toast.js"></script>
     <script type="module" src="/src/js/main.js"></script>

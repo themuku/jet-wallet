@@ -29,13 +29,7 @@ let account = fetchUser(accountId);
 let accounts = fetchUsers();
 
 fetchUser(accountId).then((account) => {
-  navProfile.querySelector("span").textContent = account.fullName;
-  navProfile.querySelector("img").src = account.profileImage;
-  userAccountNumber.textContent = account.accountNumber;
-  balance.textContent = `${account.balance} AZN`;
-  expiryDate.textContent = dayjs(account.expiryDate).format("MM/YY");
-  renderHistoryList(account.history);
-  renderCashbackPanel(account.cashback, currency);
+  refreshUI(account)
 });
 
 logoutBtn.addEventListener("click", () => {
@@ -64,7 +58,7 @@ hideBtn.addEventListener("click", () => {
   showBtn.style.display = "inline-block";
 
   fetchUser(accountId).then((account) => {
-    balance.textContent = `${account.balance} AZN`;
+    refreshUI(account)
   });
 });
 
@@ -172,9 +166,7 @@ transferBtn.addEventListener("click", (event) => {
         body: JSON.stringify(foundAccount),
       });
 
-      renderHistoryList(account.history);
-      renderCashbackPanel(account.cashback, currency);
-      balance.textContent = `${account.balance} AZN`;
+      refreshUI(account)
       main.innerHTML += toast();
       setTimeout(() => {
         main.innerHTML = main.innerHTML.replaceAll(toast(), "");
@@ -267,3 +259,16 @@ withdrawCashbackBtn.addEventListener("click", () => {
     setAccount(accounts, "accounts");
   });
 });
+
+
+function refreshUI(account) {
+  console.log(account);
+  
+  navProfile.querySelector("span").textContent = account.fullName;
+  navProfile.querySelector("img").src = account.profileImage;
+  userAccountNumber.textContent = account.accountNumber;
+  balance.textContent = `${account.balance} AZN`;
+  expiryDate.textContent = dayjs(account.expiryDate).format("MM/YY");
+  renderHistoryList(account.history);
+  renderCashbackPanel(account.cashback, currency);
+}

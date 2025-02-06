@@ -60,7 +60,8 @@ nav {
 
 main {
     padding: 40px;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: masonry;
     gap: 40px;
@@ -69,7 +70,7 @@ main {
 
 .panel {
     background-color: var(--main-white);
-    width: 100%;
+    width: calc(50vw - 80px);
     padding: 30px;
     border-radius: 20px;
 
@@ -83,7 +84,7 @@ main {
 .image-wrapper {}
 
 .balance-panel {
-    height: calc(35% - 20px);
+    height: calc(40vh - 97px);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
@@ -150,7 +151,7 @@ main {
 .account-number {}
 
 .operations-panel {
-    height: calc(60% - 20px);
+    height: calc(60vh - 117px);
 
     form {
         display: flex;
@@ -181,7 +182,7 @@ main {
 }
 
 .history-panel {
-    height: calc(65% - 20px);
+    height: calc(65vh - 117px);
 
     h2 {
         position: relative;
@@ -245,7 +246,7 @@ button.auth-btn.withdraw-btn {
 }
 
 .cashback-panel {
-    height: calc(40% - 20px);
+    height: calc(40vh - 97px);
 
     div {
         display: flex;
@@ -280,4 +281,11 @@ button.auth-btn.withdraw-btn {
             }
         }
     }
+}
+
+.first-section, .second-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 177px);
 }
